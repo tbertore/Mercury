@@ -2,7 +2,12 @@ package org.mercury.util;
 
 import org.lwjgl.util.Point;
 
-
+/**
+ * A class which represents a rectangular spatial region.
+ * 
+ * @author tbertorelli
+ * 
+ */
 public class BoundingBox {
 	public final int cx, cy;
 	public final int xhd, yhd;
@@ -27,6 +32,7 @@ public class BoundingBox {
 		if (xhd <= 0 || yhd <= 0)
 			throw new IllegalArgumentException("xhd and yhd must be > 0!");
 	}
+
 	public BoundingBox(Point nw, int width, int height) {
 		this.cx = nw.getX() + width / 2;
 		this.cy = nw.getY() + height / 2;
@@ -34,18 +40,26 @@ public class BoundingBox {
 		this.yhd = height / 2;
 	}
 
-	/**Checks if this BoundingBox contains the specified point.
-	 * @param x The x coordinate of the point.
-	 * @param y The y coordinate of the point.
+	/**
+	 * Checks if this BoundingBox contains the specified point.
+	 * 
+	 * @param x
+	 *            The x coordinate of the point.
+	 * @param y
+	 *            The y coordinate of the point.
 	 * @return true if the point is contained, otherwise false.
 	 */
 	public boolean contains(int x, int y) {
 		return !(x < cx - xhd || x > cx + xhd || y < cy - yhd || y > cy + yhd);
 	}
 
-	/**Checks if this BoundingBox intersects another BoundingBox.
-	 * @param other The BoundingBox to check for collisions against.
-	 * @return true if the other BoundingBox intersects this BoundingBox, otherwise false.
+	/**
+	 * Checks if this BoundingBox intersects another BoundingBox.
+	 * 
+	 * @param other
+	 *            The BoundingBox to check for collisions against.
+	 * @return true if the other BoundingBox intersects this BoundingBox,
+	 *         otherwise false.
 	 */
 	public boolean intersects(BoundingBox other) {
 		int x1 = cx - xhd;

@@ -5,8 +5,17 @@ import java.util.Iterator;
 
 import org.mercury.entity.Entity;
 
+/**
+ * Data structure which allows efficient O(log(n)) lookup of entities in the
+ * world. This structure must have its entries kept up to date with any moving
+ * entities each game tick in order for spatial queries to be correct.
+ * 
+ * @author tbertorelli
+ * 
+ */
 public class QuadTree {
-	//A QuadTree which can subdivide will have no more than this many entities in its array.
+	// A QuadTree which can subdivide will have no more than this many entities
+	// in its array.
 	private static int NODE_CAPACITY = 4;
 
 	private QuadTree head;
@@ -119,7 +128,7 @@ public class QuadTree {
 			if (rect.contains(entities.get(idx).x, entities.get(idx).y))
 				found.add(entities.get(idx));
 		}
-		
+
 		if (nw != null) {
 			found.addAll(nw.searchRect(rect));
 			found.addAll(ne.searchRect(rect));

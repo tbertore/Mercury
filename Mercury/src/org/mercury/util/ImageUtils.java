@@ -8,6 +8,13 @@ import org.lwjgl.opengl.GL12;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Contains various static utility methods for working with Images in the game
+ * and OpenGL.
+ * 
+ * @author tbertorelli
+ * 
+ */
 public class ImageUtils {
 	private static int ARGB_BYTE_SIZE = 4, RGB_BYTE_SIZE = 3;
 

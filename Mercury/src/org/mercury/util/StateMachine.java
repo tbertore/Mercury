@@ -1,6 +1,9 @@
 package org.mercury.util;
 
 /**
+ * A class which implements finite state machine functionality, useful for
+ * reducing code with a heavy number of flags.
+ * 
  * @author tbertorelli
  * 
  * @param <E>

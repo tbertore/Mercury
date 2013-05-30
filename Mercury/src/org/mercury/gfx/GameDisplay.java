@@ -13,11 +13,17 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.mercury.util.ImageUtils;
 
+/**
+ * A class which implements the creation and management of the game's window.
+ * 
+ * @author tbertorelli
+ * 
+ */
 public class GameDisplay {
 	private String title;
 	private int w, h;
 	private int scale = 1;
-	
+
 	private ByteBuffer[] icon;
 	private ArrayList<DisplayListener> listeners;
 
@@ -109,7 +115,8 @@ public class GameDisplay {
 			buffers[1] = ImageUtils
 					.toByteBuffer(ImageIO.read(new File(path32)));
 			icon = buffers;
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			buffers = null;
 			e.printStackTrace();
 		}
@@ -132,7 +139,8 @@ public class GameDisplay {
 			for (DisplayListener listener : listeners) {
 				listener.onInitDone();
 			}
-		} catch (LWJGLException e) {
+		}
+		catch (LWJGLException e) {
 			Display.destroy();
 			for (DisplayListener listener : listeners) {
 				listener.onWindowClosed();
@@ -160,6 +168,13 @@ public class GameDisplay {
 		GL11.glOrtho(0, w / scale, h / scale, 0, -1, 1);
 	}
 
+	/**
+	 * Renders 1 frame of the current game. This method should only be called in
+	 * the Game class once per rendering tick.
+	 * 
+	 * @return true if the render occurred successfully, false if the Display
+	 *         was closed.
+	 */
 	public boolean render() {
 		if (!Display.isCloseRequested()) {
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
@@ -174,6 +189,6 @@ public class GameDisplay {
 		else {
 			return false;
 		}
-		
+
 	}
 }
