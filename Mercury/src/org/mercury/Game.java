@@ -47,12 +47,15 @@ public class Game extends StateMachine<Game> implements Runnable {
 	 * 
 	 */
 	public void gameLoop() {
-		long time, lastTime = System.nanoTime(), lastFPSTime = System
-				.nanoTime();
-		double dt = 0;
 		final int nsPerSecond = 1000000000;
 		final double nsPerTick = nsPerSecond / updatesPerSecond;
+		
+		long time;
+		long lastTime = System.nanoTime();
+		long lastFPSTime = System.nanoTime();
+		double dt = 0;
 		int frames = 0, updates = 0;
+		
 		display.launch();
 		running = true;
 
@@ -87,7 +90,8 @@ public class Game extends StateMachine<Game> implements Runnable {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.mercury.util.StateMachine#update() Propagates the tick to the
+	 * @see org.mercury.util.StateMachine#update() 
+	 * Propagates the tick to the
 	 * current State object of this game. This method attempts to always run 60
 	 * times a second.
 	 */
