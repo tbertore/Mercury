@@ -4,7 +4,7 @@ package org.mercury.gfx;
  * Implementation of the player's viewport in the world. Each player object has
  * exactly one camera.
  * 
- * @author tbertorelli
+ * @author tbertore
  * 
  */
 public class Camera {

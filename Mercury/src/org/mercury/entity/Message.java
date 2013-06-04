@@ -3,7 +3,7 @@ package org.mercury.entity;
 /**
  * A class for sending messages between entity objects.
  * 
- * @author tbertorelli
+ * @author tbertore
  * 
  */
 public class Message {

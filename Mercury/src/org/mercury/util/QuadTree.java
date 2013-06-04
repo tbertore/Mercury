@@ -10,7 +10,7 @@ import org.mercury.entity.Entity;
  * world. This structure must have its entries kept up to date with any moving
  * entities each game tick in order for spatial queries to be correct.
  * 
- * @author tbertorelli
+ * @author tbertore
  * 
  */
 public class QuadTree {

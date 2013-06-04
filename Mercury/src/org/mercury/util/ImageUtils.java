@@ -12,7 +12,7 @@ import static org.lwjgl.opengl.GL11.*;
  * Contains various static utility methods for working with Images in the game
  * and OpenGL.
  * 
- * @author tbertorelli
+ * @author tbertore
  * 
  */
 public class ImageUtils {

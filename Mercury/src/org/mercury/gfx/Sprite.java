@@ -14,7 +14,7 @@ import org.mercury.util.ImageUtils;
  * Class which represents a 2D image. Once loaded, each sprite maps to its
  * corresponding OpenGL texture via its texture ID.
  * 
- * @author tbertorelli
+ * @author tbertore
  * 
  */
 public class Sprite {

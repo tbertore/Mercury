@@ -5,7 +5,7 @@ import org.lwjgl.util.Point;
 /**
  * A class which represents a rectangular spatial region.
  * 
- * @author tbertorelli
+ * @author tbertore
  * 
  */
 public class BoundingBox {

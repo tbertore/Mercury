@@ -4,7 +4,7 @@ package org.mercury.entity;
  * An top level class which represents a game object that has a position in the
  * world. All entities have a unique id and are organized by an Entity Manager.
  * 
- * @author tbertorelli
+ * @author tbertore
  * 
  */
 public class Entity {

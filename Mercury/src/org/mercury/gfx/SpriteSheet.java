@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
  * height in pixels, and are loaded into memory ONLY upon loading sprites via
  * the ResourceManager.
  * 
- * @author tbertorelli
+ * @author tbertore
  * 
  */
 public class SpriteSheet {

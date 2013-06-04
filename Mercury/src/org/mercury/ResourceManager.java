@@ -38,7 +38,7 @@ import org.w3c.dom.NodeList;
  * </ul>
  * </ul>
  * 
- * @author tbertorelli
+ * @author tbertore
  * 
  */
 public class ResourceManager {
