@@ -11,7 +11,7 @@ import org.mercury.util.State;
  * @author tbertorelli
  * 
  */
-public abstract class GameState implements DisplayListener, State<Game> {
+public interface GameState extends DisplayListener, State<Game> {
 
 	public abstract void onFrameRender();
 

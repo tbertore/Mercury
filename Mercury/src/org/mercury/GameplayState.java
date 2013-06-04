@@ -8,7 +8,7 @@ package org.mercury;
  * @author tbertorelli
  * 
  */
-public class GameplayState extends GameState {
+public class GameplayState implements GameState {
 
 	@Override
 	public void onFrameRender() {
