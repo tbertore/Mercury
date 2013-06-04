@@ -19,10 +19,12 @@ public class SpriteSheet {
 	private String path;
 	public final int SIZE;
 	public int[] pixels;
+	public final int spriteSize;
 
-	public SpriteSheet(String path, int size) {
+	public SpriteSheet(String path, int size, int spriteSize) {
 		this.path = path;
 		this.SIZE = size;
+		this.spriteSize = spriteSize;
 		pixels = new int[SIZE * SIZE];
 		try {
 			BufferedImage img = ImageIO.read(SpriteSheet.class
