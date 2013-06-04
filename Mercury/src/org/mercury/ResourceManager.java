@@ -7,6 +7,7 @@ import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.mercury.gfx.Animation;
 import org.mercury.gfx.Sprite;
 import org.mercury.gfx.SpriteSheet;
 import org.w3c.dom.Document;
@@ -36,6 +37,15 @@ import org.w3c.dom.NodeList;
  * <li>x - The Sprite's x index in the SpriteSheet.
  * <li>y - The Sprite's y index in the SpriteSheet.
  * </ul>
+ * <li>Animation
+ * <ul>
+ * <li>id - The string used to reference this Sprite by other resources.
+ * <li>sheet - The SpriteSheet to load this Animation from.
+ * <li>x - The first Sprite's x index in the SpriteSheet.
+ * <li>y - The first Sprite's y index in the SpriteSheet.
+ * <li>length - The number of Sprites in this Animation. Sprites are taken from
+ * the SpriteSheet index (x, y) inclusive until (x + length, y) exclusive.
+ * </ul>
  * </ul>
  * 
  * @author tbertore
@@ -44,7 +54,7 @@ import org.w3c.dom.NodeList;
 public class ResourceManager {
 	private HashMap<String, SpriteSheet> sheets;
 	private HashMap<String, Sprite> sprites;
-
+	private HashMap<String, Animation> animations;
 	/**
 	 * Constructs a new ResourceManager with empty resource mappings.
 	 * 
@@ -52,6 +62,7 @@ public class ResourceManager {
 	public ResourceManager() {
 		sheets = new HashMap<String, SpriteSheet>();
 		sprites = new HashMap<String, Sprite>();
+		animations = new HashMap<String, Animation>();
 	}
 
 	/**
@@ -72,7 +83,8 @@ public class ResourceManager {
 				loadSpriteSheet(e);
 			for (Element e : getElementsByTag(document, "sprite"))
 				loadSprite(e);
-
+			for (Element e : getElementsByTag(document, "animation"))
+				loadAnimation(e);
 			unloadAllSpriteSheets();
 		}
 		catch (Exception e) {
@@ -125,8 +137,9 @@ public class ResourceManager {
 		String path = resource.getAttribute("path");
 		String id = resource.getAttribute("id");
 		int size = Integer.valueOf(resource.getAttribute("size"));
-		SpriteSheet sheet = new SpriteSheet(path, size);
-
+		int spriteSize = Integer.valueOf("spritesize");
+		SpriteSheet sheet = new SpriteSheet(path, size, spriteSize);
+		
 		sheets.put(id, sheet);
 	}
 
@@ -147,6 +160,22 @@ public class ResourceManager {
 		sprite.load(sheets.get(sheet), x, y);
 		sprites.put(id, sprite);
 
+	}
+	
+	private void loadAnimation(Element resource) {
+		String sheet = resource.getAttribute("sheet");
+		String id = resource.getAttribute("id");
+		int speed = Integer.valueOf(resource.getAttribute("speed"));
+		int length = Integer.valueOf(resource.getAttribute("length"));
+		int x = Integer.valueOf(resource.getAttribute("x"));
+		int y = Integer.valueOf(resource.getAttribute("y"));
+		Sprite[] sprites = new Sprite[length];
+		int size = sheets.get(sheet).spriteSize;
+		for (int idx = 0; idx < sprites.length; idx++) {
+			sprites[idx] = new Sprite(size, size);
+			sprites[idx].load(sheets.get(sheet), x + idx, y);
+		}
+		animations.put(id, new Animation(sprites, speed));
 	}
 
 }
