@@ -7,22 +7,29 @@ package org.mercury.gfx;
  * @author Wyatt Bertorelli
  *
  */
+/**
+ * @author Wyatt
+ *
+ */
 public class Animation {
 	private int frameIdx = 0, framesPerAnimation, tickIdx = 0;
 	private Sprite currentFrame;
 	private int ticksPerFrame;
 	private Sprite [] frames;
-	
+	private boolean loop;
 	/**
 	 * @param frames
 	 * An array of frames that compose an entity animation.
 	 * @param ticksPerFrame
 	 * The speed at which the animation will update.
+	 * @param loop
+	 * boolean that indicates if the animation should repeat.
 	 */
-	public Animation(Sprite [] frames, int ticksPerFrame) {
+	public Animation(Sprite [] frames, int ticksPerFrame, boolean loop) {
 		this.frames = frames;
 		this.ticksPerFrame = ticksPerFrame;
 		this.framesPerAnimation = frames.length;
+		this.loop = loop;
 		// It is implied every animation starts at index zero.
 		currentFrame = frames[0];
 	}
@@ -33,19 +40,23 @@ public class Animation {
 	 * ticksPerFrame.
 	 */
 	public void update(){
-		// Increment tick
+		// return early if the animation has died.
+		if (frameIdx == framesPerAnimation && !loop){
+			return;
+		}
+		// Increment tick.
 		tickIdx++;
 		// Update frame if enough time has elapsed.
 		if (tickIdx == ticksPerFrame){
 			tickIdx = 0;
-			// Increment frameIdx and wrap if necessary
+
 			frameIdx++;
-			if (frameIdx == framesPerAnimation){
+			// Wrap the animation if it's repeatable.
+			if (frameIdx == framesPerAnimation && loop){
 				frameIdx = 0;
 			}
 			// Increment to next frame in animation.
 			currentFrame = frames[frameIdx];
-			
 		}
 	}
 	public Sprite getCurrentFrame(){
