@@ -16,7 +16,7 @@ import org.mercury.util.ImageUtils;
 /**
  * A class which implements the creation and management of the game's window.
  * 
- * @author tbertorelli
+ * @author tbertore
  * 
  */
 public class GameDisplay {

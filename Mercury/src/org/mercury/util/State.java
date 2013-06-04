@@ -3,7 +3,7 @@ package org.mercury.util;
 /**
  * Interface which allows State functionality for use by a StateMachine.
  * 
- * @author tbertorelli
+ * @author tbertore
  * 
  * @param <E>
  *            The type of the owner of the StateMachine which will use this

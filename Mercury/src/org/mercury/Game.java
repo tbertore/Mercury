@@ -8,7 +8,7 @@ import org.mercury.gfx.GameDisplay;
  * rendering, and controls the states that the game is in, e.g. Pause states,
  * Gameplay states, or Menu states.
  * 
- * @author tbertorelli
+ * @author tbertore
  * 
  */
 public class Game extends StateMachine<Game> implements Runnable {

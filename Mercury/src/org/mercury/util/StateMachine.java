@@ -4,7 +4,7 @@ package org.mercury.util;
  * A class which implements finite state machine functionality, useful for
  * reducing code with a heavy number of flags.
  * 
- * @author tbertorelli
+ * @author tbertore
  * 
  * @param <E>
  *            The type of the owner of this StateMachine.

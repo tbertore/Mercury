@@ -5,7 +5,7 @@ package org.mercury;
  * ticking the world's logic and rendering the current state of the world when
  * requested by the Game class via a call to execute.
  * 
- * @author tbertorelli
+ * @author tbertore
  * 
  */
 public class GameplayState implements GameState {

@@ -8,7 +8,7 @@ import org.mercury.util.State;
  * Gameplay States, or Main Menu states. This class is intended to be used in
  * conjunction with the top level Game finite state machine.
  * 
- * @author tbertorelli
+ * @author tbertore
  * 
  */
 public interface GameState extends DisplayListener, State<Game> {

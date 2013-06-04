@@ -6,7 +6,7 @@ import java.util.HashMap;
  * A class which organizes entities and contains a mapping of unique entitiy
  * id's to their respective entity.
  * 
- * @author tbertorelli
+ * @author tbertore
  * 
  */
 public class EntityManager {
