@@ -8,12 +8,14 @@ package org.mercury.entity;
  * 
  */
 public class Entity {
+	private static int idCount = 0;
 	private int id;
 	public int x, y;
 
 	public Entity(int x, int y) {
 		this.x = x;
 		this.y = y;
+		id = idCount++;
 	}
 
 	public int id() {
