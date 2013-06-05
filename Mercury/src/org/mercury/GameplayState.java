@@ -12,8 +12,7 @@ public class GameplayState implements GameState {
 	private ResourceManager res;
 	@Override
 	public void onFrameRender() {
-		res.getSprite("test").render(50, 50);
-
+		res.getAnimation("walk_test").getCurrentFrame().render(50, 50);
 	}
 
 	@Override
@@ -37,7 +36,7 @@ public class GameplayState implements GameState {
 
 	@Override
 	public void execute(Game e) {
-		// TODO Auto-generated method stub
+		res.getAnimation("walk_test").update();
 
 	}
 

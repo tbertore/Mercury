@@ -190,5 +190,9 @@ public class ResourceManager {
 	public Sprite getSprite(String id) {
 		return sprites.get(id);
 	}
+	
+	public Animation getAnimation(String id) {
+		return animations.get(id);
+	}
 
 }
