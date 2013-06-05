@@ -26,6 +26,7 @@ public class Animation {
 		this.ticksPerFrame = ticksPerFrame;
 		this.framesPerAnimation = frames.length;
 		this.loop = loop;
+		System.out.println(loop);
 		// It is implied every animation starts at index zero.
 		currentFrame = frames[0];
 	}
