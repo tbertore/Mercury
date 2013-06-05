@@ -26,7 +26,6 @@ public class Animation {
 		this.ticksPerFrame = ticksPerFrame;
 		this.framesPerAnimation = frames.length;
 		this.loop = loop;
-		System.out.println(loop);
 		// It is implied every animation starts at index zero.
 		currentFrame = frames[0];
 	}
@@ -63,5 +62,13 @@ public class Animation {
 	}
 	public Sprite getCurrentFrame(){
 		return currentFrame;
+	}
+	/**
+	 * Reset animation. Should be called every time new animation becomes live.
+	 */
+	public void initializeAnimation(){
+		tickIdx = 0;
+		frameIdx = 0;
+		currentFrame = frames[0];
 	}
 }
