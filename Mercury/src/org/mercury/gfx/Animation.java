@@ -48,8 +48,13 @@ public class Animation {
 
 			frameIdx++;
 			// Wrap the animation if it's repeatable.
-			if (frameIdx == framesPerAnimation && loop){
-				frameIdx = 0;
+			if (frameIdx == framesPerAnimation){
+				if (loop){
+					frameIdx = 0;
+				}
+				else{
+					return;
+				}
 			}
 			// Increment to next frame in animation.
 			currentFrame = frames[frameIdx];
