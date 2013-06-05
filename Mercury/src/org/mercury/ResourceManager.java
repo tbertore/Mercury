@@ -48,6 +48,7 @@ import org.w3c.dom.NodeList;
  * <li>length - The number of Sprites in this Animation. Sprites are taken from
  * <li>speed - The number of game ticks until a frame advance. the SpriteSheet
  * index (x, y) inclusive until (x + length, y) exclusive.
+ * <li>loop - If yes, this animation will repeat after completing.
  * </ul>
  * </ul>
  * 
@@ -173,6 +174,7 @@ public class ResourceManager {
 		String id = resource.getAttribute("id");
 		int speed = Integer.valueOf(resource.getAttribute("speed"));
 		int length = Integer.valueOf(resource.getAttribute("length"));
+		boolean loop = resource.getAttribute("loop") == "yes" ? true : false;
 		int x = Integer.valueOf(resource.getAttribute("x"));
 		int y = Integer.valueOf(resource.getAttribute("y"));
 		Sprite[] sprites = new Sprite[length];
@@ -182,9 +184,9 @@ public class ResourceManager {
 			sprites[idx] = new Sprite(size, size);
 			sprites[idx].load(sheets.get(sheet), (x + idx) * size, y * size);
 		}
-		animations.put(id, new Animation(sprites, speed));
+		animations.put(id, new Animation(sprites, speed, loop));
 	}
-	
+
 	public Sprite getSprite(String id) {
 		return sprites.get(id);
 	}
