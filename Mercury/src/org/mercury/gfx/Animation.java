@@ -7,10 +7,6 @@ package org.mercury.gfx;
  * @author Wyatt Bertorelli
  *
  */
-/**
- * @author Wyatt
- *
- */
 public class Animation {
 	private int frameIdx = 0, framesPerAnimation, tickIdx = 0;
 	private Sprite currentFrame;
