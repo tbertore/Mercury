@@ -1,5 +1,7 @@
 package org.mercury;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,13 +28,13 @@ import org.w3c.dom.NodeList;
  * <li>id - The string used to reference this SpriteSheet by other resources.
  * <li>size - The width/height of the SpriteSheet. SpriteSheets must have the
  * same width and height.
+ * <li>spritesize - The width/height of all Sprites in this spritesheet.
+ * SpriteSheets must have the same width and height.
  * <li>path - The path to the SpriteSheet's image file.
  * </ul>
  * <li>Sprite
  * <ul>
  * <li>id - The string used to reference this Sprite by other resources.
- * <li>size - The width/height of the Sprite. Sprites must have the same width
- * and height.
  * <li>sheet - The SpriteSheet to load this Sprite from.
  * <li>x - The Sprite's x index in the SpriteSheet.
  * <li>y - The Sprite's y index in the SpriteSheet.
@@ -44,7 +46,8 @@ import org.w3c.dom.NodeList;
  * <li>x - The first Sprite's x index in the SpriteSheet.
  * <li>y - The first Sprite's y index in the SpriteSheet.
  * <li>length - The number of Sprites in this Animation. Sprites are taken from
- * the SpriteSheet index (x, y) inclusive until (x + length, y) exclusive.
+ * <li>speed - The number of game ticks until a frame advance. the SpriteSheet
+ * index (x, y) inclusive until (x + length, y) exclusive.
  * </ul>
  * </ul>
  * 
@@ -55,6 +58,7 @@ public class ResourceManager {
 	private HashMap<String, SpriteSheet> sheets;
 	private HashMap<String, Sprite> sprites;
 	private HashMap<String, Animation> animations;
+
 	/**
 	 * Constructs a new ResourceManager with empty resource mappings.
 	 * 
@@ -74,7 +78,7 @@ public class ResourceManager {
 	public void load(String xmlPath) {
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			InputStream in = ResourceManager.class.getResourceAsStream(xmlPath);
+			InputStream in = new FileInputStream(new File(xmlPath));
 			DocumentBuilder docBuilder = dbf.newDocumentBuilder();
 			Document document = docBuilder.parse(in);
 
@@ -106,6 +110,7 @@ public class ResourceManager {
 		ArrayList<Element> elements = new ArrayList<Element>();
 		NodeList list = doc.getElementsByTagName(tag);
 		int totalResources = list.getLength();
+
 		for (int resourceIdx = 0; resourceIdx < totalResources; resourceIdx++) {
 			Node resourceNode = list.item(resourceIdx);
 			if (resourceNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -137,9 +142,9 @@ public class ResourceManager {
 		String path = resource.getAttribute("path");
 		String id = resource.getAttribute("id");
 		int size = Integer.valueOf(resource.getAttribute("size"));
-		int spriteSize = Integer.valueOf("spritesize");
+		int spriteSize = Integer.valueOf(resource.getAttribute("spritesize"));
 		SpriteSheet sheet = new SpriteSheet(path, size, spriteSize);
-		
+
 		sheets.put(id, sheet);
 	}
 
@@ -153,15 +158,16 @@ public class ResourceManager {
 	private void loadSprite(Element resource) {
 		String sheet = resource.getAttribute("sheet");
 		String id = resource.getAttribute("id");
-		int size = Integer.valueOf(resource.getAttribute("size"));
+		int size = sheets.get(sheet).spriteSize;
 		int x = Integer.valueOf(resource.getAttribute("x"));
 		int y = Integer.valueOf(resource.getAttribute("y"));
 		Sprite sprite = new Sprite(size, size);
+
 		sprite.load(sheets.get(sheet), x, y);
 		sprites.put(id, sprite);
 
 	}
-	
+
 	private void loadAnimation(Element resource) {
 		String sheet = resource.getAttribute("sheet");
 		String id = resource.getAttribute("id");
@@ -171,11 +177,16 @@ public class ResourceManager {
 		int y = Integer.valueOf(resource.getAttribute("y"));
 		Sprite[] sprites = new Sprite[length];
 		int size = sheets.get(sheet).spriteSize;
+
 		for (int idx = 0; idx < sprites.length; idx++) {
 			sprites[idx] = new Sprite(size, size);
-			sprites[idx].load(sheets.get(sheet), x + idx, y);
+			sprites[idx].load(sheets.get(sheet), (x + idx) * size, y * size);
 		}
 		animations.put(id, new Animation(sprites, speed));
+	}
+	
+	public Sprite getSprite(String id) {
+		return sprites.get(id);
 	}
 
 }

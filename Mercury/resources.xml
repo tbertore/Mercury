@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+   <spritesheet id="player" size="256" spritesize="32" path="player.png"></spritesheet>
+   <sprite id="test" sheet="player" x="0" y="0"></sprite>
+</resources>

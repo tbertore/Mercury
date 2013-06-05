@@ -9,17 +9,18 @@ package org.mercury;
  * 
  */
 public class GameplayState implements GameState {
-
+	private ResourceManager res;
 	@Override
 	public void onFrameRender() {
-		// TODO Auto-generated method stub
+		res.getSprite("test").render(50, 50);
 
 	}
 
 	@Override
 	public void onInitDone() {
-		// TODO Auto-generated method stub
-
+		res = new ResourceManager();
+		res.load("resources.xml");
+		
 	}
 
 	@Override
