@@ -174,7 +174,7 @@ public class ResourceManager {
 		String id = resource.getAttribute("id");
 		int speed = Integer.valueOf(resource.getAttribute("speed"));
 		int length = Integer.valueOf(resource.getAttribute("length"));
-		boolean loop = resource.getAttribute("loop") == "yes" ? true : false;
+		boolean loop = resource.getAttribute("loop").equals("yes") ? true : false;
 		int x = Integer.valueOf(resource.getAttribute("x"));
 		int y = Integer.valueOf(resource.getAttribute("y"));
 		Sprite[] sprites = new Sprite[length];
