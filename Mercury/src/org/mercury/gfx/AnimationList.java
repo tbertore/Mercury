@@ -8,9 +8,9 @@ import java.util.HashMap;
  *
  */
 public class AnimationList {
-	private Integer animationCount = 0, animationIdx = 0;
-	private Map<String, Integer> animationMap;
-	private Animation [] animationGroup;
+	private Integer animationCount = 0;
+	private Map<String, Animation> animationMap;
+	private Animation liveAnimation;
 
 	/**
 	 * @param animationName
@@ -19,11 +19,9 @@ public class AnimationList {
 	 * new animation to add.
 	 */
 	public AnimationList(String animationName, Animation animation){
-		animationMap = new HashMap<String, Integer>();
-		animationMap.put(animationName, animationCount);
+		animationMap = new HashMap<String, Animation>();
+		animationMap.put(animationName, animation);
 		// Default size of animation list to 10.
-		animationGroup = new Animation[10];
-		animationGroup[animationCount] = animation;
 		animationCount++;
 	}
 
@@ -35,12 +33,14 @@ public class AnimationList {
 	 * List of animations to add to the list
 	 */
 	public AnimationList(String [] animationName, Animation [] animation){
-		animationMap = new HashMap<String, Integer>();
-		Integer animationsToAdd = animation.length;
-		animationGroup = new Animation[animationsToAdd];
-		for (int i = 0; i < animationsToAdd; i++){
-			animationMap.put(animationName[i], animationCount);
-			animationGroup[animationCount] = animation[i];
+		animationMap = new HashMap<String, Animation>();
+
+		if (animation.length != animationName.length){
+			// throw exception in case class was set up improperly.
+			throw new IndexOutOfBoundsException("M:GFX:AL, Input arrays are not same length.");
+		}
+		for (int i = 0; i < animation.length; i++){
+			animationMap.put(animationName[i], animation[i]);
 			animationCount++;
 		}
 	}
@@ -55,31 +55,9 @@ public class AnimationList {
 	 */
 	public void addAnimation(String animationName, Animation animation){
 		// Add a unique id for the animation.
-		animationMap.put(animationName, animationCount);
-		// Add the animation to the list.
-		animationGroup[animationCount] = animation;
+		animationMap.put(animationName, animation);
 		// Increment counter.
 		animationCount++;
-		if (animationCount == animationGroup.length){
-			reallocateAnimationList();
-		}
-	}
-
-	/**
-	 * Make room for more entity animations.
-	 */
-	private void reallocateAnimationList(){
-		Animation [] tempAnimationGroup = new Animation[animationCount];
-		// Save animations already in list.
-		for (int i = 0; i < animationCount; i++){
-			 tempAnimationGroup[i] = animationGroup[i];
-		}
-		// reallocate space.
-		animationGroup = new Animation[animationCount + 10];
-		// Add animations back in.
-		for (int i = 0; i < animationCount; i++){
-			animationGroup[i] = tempAnimationGroup[i];
-		}
 	}
 
 	/**
@@ -89,14 +67,15 @@ public class AnimationList {
 	 * not exist.
 	 */
 	public void setActiveAnimation(String animationName){
-		animationIdx = animationMap.get(animationName);
-		if (animationIdx == null){
-			throw new IndexOutOfBoundsException("MERCURY:ANIMATION, Animation not in list!");
+		liveAnimation = animationMap.get(animationName);
+		if (liveAnimation == null){
+			// Throw exception if no animation is returned.
+			throw new IndexOutOfBoundsException("M:GFX:AL, Animation not in list!");
 		}
 		// Make sure animation starts at first frame.
-		animationGroup[animationIdx].initializeAnimation();
+		liveAnimation.initializeAnimation();
 	}
 	public Animation getActiveAnimation(){
-		return animationGroup[animationIdx];
+		return liveAnimation;
 	}
 }
