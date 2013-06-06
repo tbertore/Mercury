@@ -28,7 +28,7 @@ public class Game extends StateMachine<Game> implements Runnable {
 		setOwner(this);
 
 		display = new GameDisplay();
-		display.setIcon("test16.png", "test32.png");
+		display.setIcon("resources/test16.png", "resources/test32.png");
 		display.setTitle(name);
 		display.setResolution(width, height);
 		setCurrentState(new GameplayState());

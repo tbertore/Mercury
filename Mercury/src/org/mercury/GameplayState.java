@@ -18,7 +18,7 @@ public class GameplayState implements GameState {
 	@Override
 	public void onInitDone() {
 		res = new ResourceManager();
-		res.load("resources.xml");
+		res.load("resources/resources.xml");
 		
 	}
 

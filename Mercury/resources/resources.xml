@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-   <spritesheet id="player" size="256" spritesize="32" path="player.png"></spritesheet>
+   <spritesheet id="player" size="256" spritesize="32" path="resources/textures/player.png"></spritesheet>
    <sprite id="test" sheet="player" x="0" y="0"></sprite>
    <animation id="walk_test" sheet = "player" length="4" x="0" y="0" speed="20" loop="yes"></animation>
 </resources>
