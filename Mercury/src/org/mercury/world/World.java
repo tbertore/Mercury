@@ -18,6 +18,7 @@ public class World {
 	public int getWidth() {
 		return Terrain.SIZE * tilesX;
 	}
+	
 	public int getHeight() {
 		return Terrain.SIZE * tilesY;
 	}

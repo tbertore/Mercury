@@ -62,7 +62,14 @@ public class EntityManager {
 	}
 
 	public void update() {
-		
+		for (Entity e : idToEntity.values()) {
+			int x = e.x;
+			int y = e.y;
+			e.update();
+			if (e.x != x || e.y != y) {
+				tree.reindex(e, x, y);
+			}
+		}
 		
 	}
 }
