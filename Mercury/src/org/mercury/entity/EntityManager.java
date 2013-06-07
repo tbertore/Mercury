@@ -2,6 +2,11 @@ package org.mercury.entity;
 
 import java.util.HashMap;
 
+import org.lwjgl.util.Point;
+import org.mercury.util.BoundingBox;
+import org.mercury.util.QuadTree;
+import org.mercury.world.World;
+
 /**
  * A class which organizes entities and contains a mapping of unique entitiy
  * id's to their respective entity.
@@ -11,9 +16,10 @@ import java.util.HashMap;
  */
 public class EntityManager {
 	private HashMap<Integer, Entity> idToEntity;
-
-	public EntityManager() {
+	private QuadTree tree;
+	public EntityManager(World world) {
 		idToEntity = new HashMap<Integer, Entity>();
+		tree = new QuadTree(new BoundingBox(new Point(0,0), world.getWidth(), world.getHeight()));
 	}
 
 	/**
@@ -29,6 +35,7 @@ public class EntityManager {
 		if (idToEntity.containsKey(e.id()))
 			throw new IllegalArgumentException("Duplicate entity ids!");
 		idToEntity.put(e.id(), e);
+		tree.insert(e);
 	}
 
 	/**
@@ -40,6 +47,7 @@ public class EntityManager {
 	 */
 	public void remove(Entity e) {
 		idToEntity.remove(e);
+		tree.remove(e);
 	}
 
 	/**
@@ -51,5 +59,10 @@ public class EntityManager {
 	 */
 	public Entity getEntityFromId(int id) {
 		return idToEntity.get(idToEntity);
+	}
+
+	public void update() {
+		
+		
 	}
 }

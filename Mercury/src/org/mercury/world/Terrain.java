@@ -4,11 +4,12 @@ import org.mercury.gfx.Camera;
 import org.mercury.gfx.Sprite;
 
 public class Terrain {
+	public static final int SIZE = 16;
+	
 	private Tile tile;
 	private int height;
 	private int ulx, uly;
 	private Sprite sprite;
-	
 	public Terrain (int ulx, int uly, int height, Sprite sprite) {
 		this.ulx = ulx;
 		this.uly = uly;
