@@ -40,7 +40,7 @@ public class Game extends StateMachine<Game> implements Runnable {
 	}
 
 	/**
-	 * The main game loop. This loop is dynamic, it always attempts to acheive
+	 * The main game loop. This loop is dynamic, it always attempts to achieve
 	 * exactly 60 logical ticks per second. Any extra time is put into rendering
 	 * the game. If the game cannot achieve 60 logical ticks per second,
 	 * rendering ticks are sacrificed to attempt to make up the required time.

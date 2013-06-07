@@ -1,47 +1,81 @@
 package org.mercury.gfx;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.ArrayList;
 /**
  * Container class for entities that can perform multiple animations. Implementation
- * allows users to set the animation by assigned name.
+ * allows users to set the animation by assigned name and orientation.
  * @author Wyatt Bertorelli
  *
  */
 public class AnimationList {
-	private Integer animationCount = 0;
-	private Map<String, Animation> animationMap;
+	private final ArrayList<HashMap<String, Animation>> mapList = new ArrayList<HashMap<String, Animation>>(4);
 	private Animation liveAnimation;
+	private Integer orientation;
+
+	public AnimationList(){
+		// generate map in each direction
+		HashMap<String, Animation> north = new HashMap<String, Animation>();
+		HashMap<String, Animation> south = new HashMap<String, Animation>();
+		HashMap<String, Animation> east = new HashMap<String, Animation>();
+		HashMap<String, Animation> west = new HashMap<String, Animation>();
+		// Add maps to list so they remain on the class.
+		mapList.add(0, north);
+		mapList.add(1, east);
+		mapList.add(2, south);
+		mapList.add(3, west);
+	}
 
 	/**
 	 * @param animationName
 	 * Name of the animation.
 	 * @param animation
 	 * new animation to add.
+	 * @param orientation
+	 * Direction the animation is oriented.
 	 */
-	public AnimationList(String animationName, Animation animation){
-		animationMap = new HashMap<String, Animation>();
-		animationMap.put(animationName, animation);
-		// Default size of animation list to 10.
-		animationCount++;
+	public AnimationList(String animationName, Animation animation, Integer orientation){
+		// generate map in each direction
+		HashMap<String, Animation> north = new HashMap<String, Animation>();
+		HashMap<String, Animation> south = new HashMap<String, Animation>();
+		HashMap<String, Animation> east = new HashMap<String, Animation>();
+		HashMap<String, Animation> west = new HashMap<String, Animation>();
+		// Add maps to list so they remain on the class.
+		mapList.add(0, north);
+		mapList.add(1, east);
+		mapList.add(2, south);
+		mapList.add(3, west);
+
+		// Add animation for correct direction.
+		mapList.get(orientation - 1).put(animationName, animation);
 	}
 
 	/**
 	 * Overloaded constructor that allows for multiple animations to be on object initialization.
 	 * @param animationName
-	 * List of animation names to add into the list
+	 * Array of animation names to add into the list
 	 * @param animation
-	 * List of animations to add to the list
+	 * Array of animations to add to the list
+	 * @param orientation
+	 * Array of directions to set animation orientation
 	 */
-	public AnimationList(String [] animationName, Animation [] animation){
-		animationMap = new HashMap<String, Animation>();
+	public AnimationList(String [] animationName, Animation [] animation, Integer [] orientation){
 
-		if (animation.length != animationName.length){
+		if (animation.length != animationName.length || animation.length != orientation.length){
 			// throw exception in case class was set up improperly.
-			throw new IndexOutOfBoundsException("M:GFX:AL, Input arrays are not same length.");
+			throw new IndexOutOfBoundsException("Input arrays are not same length.");
 		}
+		// generate map in each direction
+		HashMap<String, Animation> north = new HashMap<String, Animation>();
+		HashMap<String, Animation> south = new HashMap<String, Animation>();
+		HashMap<String, Animation> east = new HashMap<String, Animation>();
+		HashMap<String, Animation> west = new HashMap<String, Animation>();
+		// Add maps to list so they remain on the class.
+		mapList.add(0, north);
+		mapList.add(1, east);
+		mapList.add(2, south);
+		mapList.add(3, west);
 		for (int i = 0; i < animation.length; i++){
-			animationMap.put(animationName[i], animation[i]);
-			animationCount++;
+			mapList.get(orientation[i] - 1).put(animationName[i], animation[i]);
 		}
 	}
 
@@ -52,12 +86,12 @@ public class AnimationList {
 	 * name of the animation.
 	 * @param animation
 	 * new animation to add.
+	 * @param orientation
+	 * Direction the animation is oriented.
 	 */
-	public void addAnimation(String animationName, Animation animation){
+	public void add(String animationName, Animation animation, Integer orientation){
 		// Add a unique id for the animation.
-		animationMap.put(animationName, animation);
-		// Increment counter.
-		animationCount++;
+		mapList.get(orientation - 1).put(animationName, animation);
 	}
 
 	/**
@@ -65,17 +99,23 @@ public class AnimationList {
 	 * @param animationName
 	 * The name of the action to set as active. Throws an exception if the animation does
 	 * not exist.
+	 * @param orientation
+	 * direction to orient animation.
 	 */
-	public void setActiveAnimation(String animationName){
-		liveAnimation = animationMap.get(animationName);
+	public void set(String animationName, Integer orientation){
+		liveAnimation = mapList.get(orientation - 1).get(animationName);
+		this.orientation = orientation;
 		if (liveAnimation == null){
 			// Throw exception if no animation is returned.
-			throw new IndexOutOfBoundsException("M:GFX:AL, Animation not in list!");
+			throw new IndexOutOfBoundsException("Animation not in list!");
 		}
 		// Make sure animation starts at first frame.
 		liveAnimation.initializeAnimation();
 	}
-	public Animation getActiveAnimation(){
+	public Animation get(){
 		return liveAnimation;
+	}
+	public Integer getOrientation(){
+		return orientation;
 	}
 }

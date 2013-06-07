@@ -10,6 +10,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.mercury.gfx.Animation;
+import org.mercury.gfx.AnimationList;
 import org.mercury.gfx.Sprite;
 import org.mercury.gfx.SpriteSheet;
 import org.w3c.dom.Document;
@@ -58,7 +59,7 @@ import org.w3c.dom.NodeList;
 public class ResourceManager {
 	private HashMap<String, SpriteSheet> sheets;
 	private HashMap<String, Sprite> sprites;
-	private HashMap<String, Animation> animations;
+	private AnimationList animations;
 
 	/**
 	 * Constructs a new ResourceManager with empty resource mappings.
@@ -67,7 +68,7 @@ public class ResourceManager {
 	public ResourceManager() {
 		sheets = new HashMap<String, SpriteSheet>();
 		sprites = new HashMap<String, Sprite>();
-		animations = new HashMap<String, Animation>();
+		animations = new AnimationList();
 	}
 
 	/**
@@ -184,7 +185,8 @@ public class ResourceManager {
 			sprites[idx] = new Sprite(size, size);
 			sprites[idx].load(sheets.get(sheet), (x + idx) * size, y * size);
 		}
-		animations.put(id, new Animation(sprites, speed, loop));
+		animations.add(id, new Animation(sprites, speed, loop), 1);
+		animations.set(id, 1);
 	}
 
 	public Sprite getSprite(String id) {
@@ -192,7 +194,7 @@ public class ResourceManager {
 	}
 	
 	public Animation getAnimation(String id) {
-		return animations.get(id);
+		return animations.get();
 	}
 
 }
