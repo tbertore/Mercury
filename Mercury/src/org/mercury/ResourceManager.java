@@ -194,7 +194,7 @@ public class ResourceManager {
 	}
 	
 	public Animation getAnimation(String id) {
-		return animations.get();
+		return animations.getLive();
 	}
 
 }

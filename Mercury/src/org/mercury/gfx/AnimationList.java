@@ -112,7 +112,7 @@ public class AnimationList {
 		// Make sure animation starts at first frame.
 		liveAnimation.initializeAnimation();
 	}
-	public Animation get(){
+	public Animation getLive(){
 		return liveAnimation;
 	}
 	public Integer getOrientation(){
