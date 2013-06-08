@@ -10,7 +10,9 @@ import java.util.ArrayList;
 public class AnimationList {
 	private final ArrayList<HashMap<String, Animation>> mapList = new ArrayList<HashMap<String, Animation>>(4);
 	private Animation liveAnimation;
-	private Integer orientation;
+	private int orientation;
+
+	public static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
 
 	public AnimationList(){
 		// generate map in each direction
@@ -46,7 +48,7 @@ public class AnimationList {
 		mapList.add(3, west);
 
 		// Add animation for correct direction.
-		mapList.get(orientation - 1).put(animationName, animation);
+		mapList.get(orientation).put(animationName, animation);
 	}
 
 	/**
@@ -75,7 +77,7 @@ public class AnimationList {
 		mapList.add(2, south);
 		mapList.add(3, west);
 		for (int i = 0; i < animation.length; i++){
-			mapList.get(orientation[i] - 1).put(animationName[i], animation[i]);
+			mapList.get(orientation[i]).put(animationName[i], animation[i]);
 		}
 	}
 
@@ -91,7 +93,7 @@ public class AnimationList {
 	 */
 	public void add(String animationName, Animation animation, Integer orientation){
 		// Add a unique id for the animation.
-		mapList.get(orientation - 1).put(animationName, animation);
+		mapList.get(orientation).put(animationName, animation);
 	}
 
 	/**
@@ -103,7 +105,7 @@ public class AnimationList {
 	 * direction to orient animation.
 	 */
 	public void set(String animationName, Integer orientation){
-		liveAnimation = mapList.get(orientation - 1).get(animationName);
+		liveAnimation = mapList.get(orientation).get(animationName);
 		this.orientation = orientation;
 		if (liveAnimation == null){
 			// Throw exception if no animation is returned.

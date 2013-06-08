@@ -52,18 +52,18 @@ import org.w3c.dom.NodeList;
  * <li>loop - If yes, this animation will repeat after completing.
  * </ul>
  * </ul>
- * 
+ *
  * @author tbertore
- * 
+ *
  */
 public class ResourceManager {
 	private HashMap<String, SpriteSheet> sheets;
-	private HashMap<String, Sprite> sprites;
-	private AnimationList animations;
+	private final HashMap<String, Sprite> sprites;
+	private final AnimationList animations;
 
 	/**
 	 * Constructs a new ResourceManager with empty resource mappings.
-	 * 
+	 *
 	 */
 	public ResourceManager() {
 		sheets = new HashMap<String, SpriteSheet>();
@@ -73,7 +73,7 @@ public class ResourceManager {
 
 	/**
 	 * Loads all resources specified in the XML file with the specified path.
-	 * 
+	 *
 	 * @param xmlPath
 	 *            The path of the XML file.
 	 */
@@ -101,7 +101,7 @@ public class ResourceManager {
 	/**
 	 * Utility method which returns an array of all XML element nodes (A
 	 * complete tag) with the specified tag name.
-	 * 
+	 *
 	 * @param doc
 	 *            The document to search in.
 	 * @param tag
@@ -127,7 +127,7 @@ public class ResourceManager {
 	 * Removes the SpriteSheet mapping (and consequently, all the SpriteSheet
 	 * objects). SpriteSheet objects are no longer required after all loading is
 	 * done, as all images have been extracted from it.
-	 * 
+	 *
 	 */
 	private void unloadAllSpriteSheets() {
 		sheets = null;
@@ -136,7 +136,7 @@ public class ResourceManager {
 	/**
 	 * Builds a SpriteSheet from the specified xml resource element and loads it
 	 * into the SpriteSheet map.
-	 * 
+	 *
 	 * @param resource
 	 *            The XML tag to load from.
 	 */
@@ -153,7 +153,7 @@ public class ResourceManager {
 	/**
 	 * Builds a Sprite from the specified xml resource. Note that this method
 	 * requires the Sprite's SpriteSheet to have been loaded beforehand.
-	 * 
+	 *
 	 * @param resource
 	 *            The XML tag to load from.
 	 */
@@ -186,13 +186,13 @@ public class ResourceManager {
 			sprites[idx].load(sheets.get(sheet), (x + idx) * size, y * size);
 		}
 		animations.add(id, new Animation(sprites, speed, loop), 1);
-		animations.set(id, 1);
+		animations.set(id, AnimationList.EAST);
 	}
 
 	public Sprite getSprite(String id) {
 		return sprites.get(id);
 	}
-	
+
 	public Animation getAnimation(String id) {
 		return animations.getLive();
 	}
