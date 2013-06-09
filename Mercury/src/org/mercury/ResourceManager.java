@@ -59,9 +59,8 @@ import org.w3c.dom.NodeList;
  */
 public class ResourceManager {
 	private HashMap<String, SpriteSheet> sheets;
-	private final HashMap<String, Sprite> sprites;
-	private Hero hero;
-
+	private HashMap<String, Sprite> sprites;
+	private HashMap<String, Animation> animations;
 	/**
 	 * Constructs a new ResourceManager with empty resource mappings.
 	 *
@@ -69,6 +68,7 @@ public class ResourceManager {
 	public ResourceManager() {
 		sheets = new HashMap<String, SpriteSheet>();
 		sprites = new HashMap<String, Sprite>();
+		animations = new HashMap<String, Animation>();
 	}
 
 	/**
@@ -180,29 +180,18 @@ public class ResourceManager {
 		int y = Integer.valueOf(resource.getAttribute("y"));
 		Sprite[] sprites = new Sprite[length];
 		int size = sheets.get(sheet).spriteSize;
-
+		
 		for (int idx = 0; idx < sprites.length; idx++) {
 			sprites[idx] = new Sprite(size, size);
 			sprites[idx].load(sheets.get(sheet), (x + idx) * size, y * size);
 		}
-		AnimationList animations = new AnimationList(id, new Animation(sprites,
-				speed, loop), AnimationList.EAST);
-		animations.add(id, new Animation(sprites, speed, loop),
-				AnimationList.SOUTH);
-		animations.add(id, new Animation(sprites, speed, loop),
-				AnimationList.WEST);
-		animations.add(id, new Animation(sprites, speed, loop),
-				AnimationList.NORTH);
-		animations.setLive(id, AnimationList.EAST);
-		hero = new Hero(0, 0, animations);
+		
+		animations.put(id, new Animation(sprites, speed, loop));
 	}
-
+	public Animation getAnimation(String id) {
+		return animations.get(id);
+	}
 	public Sprite getSprite(String id) {
 		return sprites.get(id);
-	}
-
-
-	public Hero getHero() {
-		return hero;
 	}
 }

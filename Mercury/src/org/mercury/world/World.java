@@ -3,7 +3,9 @@ package org.mercury.world;
 import java.util.ArrayList;
 
 import org.mercury.Player;
+import org.mercury.entity.Entity;
 import org.mercury.entity.EntityManager;
+import org.mercury.gfx.Camera;
 
 public class World {
 	private EntityManager entityManager;
@@ -22,10 +24,16 @@ public class World {
 	public int getHeight() {
 		return Terrain.SIZE * tilesY;
 	}
+	public void addEntity(Entity e) {
+		entityManager.register(e);
+	}
 	public void addPlayer(Player player) {
-		
+		entityManager.register(player.getHero());
 	}
 	public void update() {
 		entityManager.update();
+	}
+	public void render(Camera c) {
+		entityManager.render(c);
 	}
 }

@@ -1,6 +1,8 @@
 package org.mercury;
 
 import org.mercury.entity.Hero;
+import org.mercury.gfx.Camera;
+import org.mercury.world.World;
 
 /**
  * A class which represents the In-Game state. This class is responsible for
@@ -11,42 +13,39 @@ import org.mercury.entity.Hero;
  *
  */
 public class GameplayState implements GameState {
-	private ResourceManager res;
+	private World world;
+	private Game game;
 	@Override
 	public void onFrameRender() {
-		Hero hero = res.getHero();
-		hero.render();
+		world.render(game.getPlayer().getCamera());
 	}
 
 	@Override
 	public void onInitDone() {
-		res = new ResourceManager();
-		res.load("resources/resources.xml");
-
+		game.resources.load("resources/resources.xml");
+		game.getPlayer().setCamera(new Camera());
+		game.getPlayer().setHero(new Hero(0, 0));
+		world.addPlayer(game.getPlayer());
 	}
 
 	@Override
 	public void onWindowClosed() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void enter(Game e) {
-		// TODO Auto-generated method stub
-
+	public void enter(Game game) {
+		this.game = game;
+		world = new World(100, 100);
 	}
 
 	@Override
 	public void execute(Game e) {
-		// Update the hero, poll key state.
-		res.getHero().update();
-
+		world.update();
 	}
 
 	@Override
 	public void exit(Game e) {
-		// TODO Auto-generated method stub
 
 	}
 

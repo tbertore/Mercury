@@ -1,6 +1,8 @@
 package org.mercury;
 
 import org.mercury.util.StateMachine;
+import org.mercury.entity.Hero;
+import org.mercury.gfx.Camera;
 import org.mercury.gfx.GameDisplay;
 
 /**
@@ -12,12 +14,16 @@ import org.mercury.gfx.GameDisplay;
  * 
  */
 public class Game extends StateMachine<Game> implements Runnable {
+
 	private static final int width = 800;
 	private static final int height = 600;
 	private static int updatesPerSecond = 60;
 	private static final String name = "Mercury";
+	private static Game instance;
+	public final ResourceManager resources;
 	private GameDisplay display;
 	private boolean running;
+	private Player player;
 
 	/**
 	 * Creates a new Game and GameDisplay object according to static parameters.
@@ -26,12 +32,14 @@ public class Game extends StateMachine<Game> implements Runnable {
 	public Game() {
 		super();
 		setOwner(this);
-
+		instance = this;
+		player = new Player();
 		display = new GameDisplay();
+		resources = new ResourceManager();		
+		changeState(new GameplayState());
 		display.setIcon("resources/test16.png", "resources/test32.png");
 		display.setTitle(name);
 		display.setResolution(width, height);
-		setCurrentState(new GameplayState());
 		display.addDisplayListener((GameplayState) getCurrentState());
 	}
 
@@ -114,7 +122,13 @@ public class Game extends StateMachine<Game> implements Runnable {
 			running = false;
 		}
 	}
-
+	public Player getPlayer() {
+		return player;
+	}
+	
+	public static ResourceManager resouces() {
+		return instance.resources;
+	}
 	/**
 	 * Creates a new Game and executes it in another thread.
 	 * 
@@ -124,5 +138,5 @@ public class Game extends StateMachine<Game> implements Runnable {
 	public static void main(String[] args) {
 		new Thread(new Game()).start();
 	}
-
+	
 }

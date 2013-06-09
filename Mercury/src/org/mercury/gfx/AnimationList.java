@@ -142,6 +142,10 @@ public class AnimationList {
 	public void render(int x, int y) {
 		liveAnimation.render(x, y);
 	}
+	
+	public void render(Camera c, int x, int y) {
+		liveAnimation.render(c, x, y);
+	}
 
 	public void update() {
 		liveAnimation.update();

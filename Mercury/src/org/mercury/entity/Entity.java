@@ -1,6 +1,7 @@
 package org.mercury.entity;
 
 import org.mercury.gfx.AnimationList;
+import org.mercury.gfx.Camera;
 
 /**
  * An top level class which represents a game object that has a position in the
@@ -15,16 +16,33 @@ public class Entity {
 	protected double x, y;
 	protected AnimationList animations;
 
+	public Entity(int x, int y) {
+		this.x = x;
+		this.y = y;
+		id = idCount++;
+	}
+	
 	public Entity(int x, int y, AnimationList animations) {
 		this.x = x;
 		this.y = y;
 		id = idCount++;
 		this.animations = animations;
 	}
+	
+	protected void init(AnimationList animations) {
+		this.animations = animations;
+	}
 
 	public void update() {
 		animations.update();
 	}
+	
+	public void render(Camera c) {
+		if (animations != null)
+			animations.render(c, getX(), getY());
+	}
+	
+	
 	public int id() {
 		return id;
 	}

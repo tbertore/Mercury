@@ -68,6 +68,11 @@ public class Animation {
 	public void render(int x, int y) {
 		currentFrame.render(x, y);
 	}
+	
+	public void render(Camera c, int x, int y) {
+		currentFrame.render(c, x, y);
+	}
+	
 	/**
 	 * Reset animation. Should be called every time new animation becomes live.
 	 */

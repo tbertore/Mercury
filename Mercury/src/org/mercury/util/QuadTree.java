@@ -49,6 +49,7 @@ public class QuadTree {
 	 */
 	public QuadTree(BoundingBox bounds) {
 		boundary = bounds;
+		head = this;
 		entities = new ArrayList<Entity>(NODE_CAPACITY);
 	}
 

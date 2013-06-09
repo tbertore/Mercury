@@ -22,7 +22,6 @@ public class StateMachine<E> {
 	 * a call to the update method.
 	 */
 	public StateMachine() {
-
 	}
 
 	/**
@@ -145,7 +144,8 @@ public class StateMachine<E> {
 	 */
 	public void changeState(State<E> state) {
 		previousState = currentState;
-		currentState.exit(owner);
+		if (currentState != null)
+			currentState.exit(owner);
 		currentState = state;
 		currentState.enter(owner);
 	}

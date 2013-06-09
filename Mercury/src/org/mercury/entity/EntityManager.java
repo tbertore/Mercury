@@ -3,6 +3,7 @@ package org.mercury.entity;
 import java.util.HashMap;
 
 import org.lwjgl.util.Point;
+import org.mercury.gfx.Camera;
 import org.mercury.util.BoundingBox;
 import org.mercury.util.QuadTree;
 import org.mercury.world.World;
@@ -68,8 +69,14 @@ public class EntityManager {
 			e.update();
 			if (e.getX() != x || e.getY() != y) {
 				tree.reindex(e, x, y);
+				System.out.println("Reindexin");
 			}
 		}
 
+	}
+	public void render(Camera c) {
+		for (Entity e : idToEntity.values()) {
+			e.render(c);
+		}
 	}
 }
