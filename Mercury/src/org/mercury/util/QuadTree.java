@@ -9,9 +9,9 @@ import org.mercury.entity.Entity;
  * Data structure which allows efficient O(log(n)) lookup of entities in the
  * world. This structure must have its entries kept up to date with any moving
  * entities each game tick in order for spatial queries to be correct.
- * 
+ *
  * @author tbertore
- * 
+ *
  */
 public class QuadTree {
 	// A QuadTree which can subdivide will have no more than this many entities
@@ -27,7 +27,7 @@ public class QuadTree {
 	 * Creates a new QuadTree spanning over the specified rectangular area. A
 	 * QuadTree is a data structure which allows efficient O(log(n)) spatial
 	 * queries of entities.
-	 * 
+	 *
 	 * @param bounds
 	 *            The area for this QuadTree to span.
 	 * @param head
@@ -43,7 +43,7 @@ public class QuadTree {
 	 * Creates a new QuadTree spanning over the specified rectangular area. A
 	 * QuadTree is a data structure which allows efficient O(log(n)) spatial
 	 * queries of entities.
-	 * 
+	 *
 	 * @param bounds
 	 *            The area for this QuadTree to span.
 	 */
@@ -56,7 +56,7 @@ public class QuadTree {
 	 * Creates a new QuadTree spanning over the specified rectangular area. A
 	 * QuadTree is a data structure which allows efficient O(log(n)) spatial
 	 * queries of entities.
-	 * 
+	 *
 	 * @param centerX
 	 *            The x coordinate of the center of the rectangle to span.
 	 * @param centerY
@@ -65,7 +65,7 @@ public class QuadTree {
 	 *            Half of the width of the rectangle to span.
 	 * @param yRadius
 	 *            Half of the height of the rectangle to span.
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             If xRadius or yRadius are less than 1.
 	 */
@@ -79,14 +79,14 @@ public class QuadTree {
 
 	/**
 	 * Inserts an entity into this QuadTree, using its x and y position.
-	 * 
+	 *
 	 * @param e
 	 *            The entity to insert.
 	 * @return True if the entity was successfully added to this QuadTree, or
 	 *         false if the entity's position is not contained by this QuadTree.
 	 */
 	public boolean insert(Entity e) {
-		if (!boundary.contains(e.x, e.y))
+		if (!boundary.contains(e.getX(), e.getY()))
 			return false;
 
 		// Add the entity to this level if there is room, or if we cannot divide
@@ -113,7 +113,7 @@ public class QuadTree {
 
 	/**
 	 * Returns all the entities contained in a given rectangle.
-	 * 
+	 *
 	 * @param rect
 	 *            The rectangular area to search in.
 	 * @return An ArrayList containing the entities found.
@@ -125,7 +125,8 @@ public class QuadTree {
 			return found;
 
 		for (int idx = 0; idx < entities.size(); idx++) {
-			if (rect.contains(entities.get(idx).x, entities.get(idx).y))
+			if (rect.contains(entities.get(idx).getX(), entities.get(idx)
+					.getY()))
 				found.add(entities.get(idx));
 		}
 
@@ -158,7 +159,7 @@ public class QuadTree {
 	/**
 	 * Reindexes the specified entity in the QuadTree to its current location if
 	 * it exists. This is an O(log(n)) operation.
-	 * 
+	 *
 	 * @param e
 	 *            The entity to update the indexing for.
 	 * @param prevX
@@ -187,7 +188,7 @@ public class QuadTree {
 	}
 
 	public boolean remove(Entity e) {
-		if (!boundary.contains(e.x, e.y))
+		if (!boundary.contains(e.getX(), e.getY()))
 			return false;
 		Iterator<Entity> it = entities.iterator();
 		while (it.hasNext()) {
@@ -212,14 +213,14 @@ public class QuadTree {
 
 	/**
 	 * Checks if the specified entity is contained in this QuadTree.
-	 * 
+	 *
 	 * @param e
 	 *            The Entity to find.
 	 * @return true if this QuadTree contains the specified entity, otherwise
 	 *         false.
 	 */
 	public boolean contains(Entity e) {
-		if (!boundary.contains(e.x, e.y))
+		if (!boundary.contains(e.getX(), e.getY()))
 			return false;
 		if (entities.contains(e))
 			return true;
@@ -239,14 +240,14 @@ public class QuadTree {
 	/**
 	 * Reindexes all entities in this QuadTree based on their current positions.
 	 * This is an O(nlog(n)) operation.
-	 * 
+	 *
 	 */
 	public void reindexAll() {
 		Iterator<Entity> it = entities.iterator();
 		ArrayList<Entity> removed = new ArrayList<Entity>();
 		while (it.hasNext()) {
 			Entity e = it.next();
-			if (!boundary.contains(e.x, e.y)) {
+			if (!boundary.contains(e.getX(), e.getY())) {
 				it.remove();
 				System.out.println(e + " is in the wrong place!");
 				removed.add(e);
@@ -266,7 +267,7 @@ public class QuadTree {
 
 	/**
 	 * Debug method which prints the contents of this QuadTree.
-	 * 
+	 *
 	 */
 	public void print() {
 		System.out.println("Quadtree cx: " + boundary.cx + ", cy: "
@@ -284,6 +285,7 @@ public class QuadTree {
 			se.print();
 	}
 
+	@Override
 	public String toString() {
 		return "QuadTree cx: " + boundary.cx + ", cy: " + boundary.cy
 				+ ", xhd: " + boundary.xhd + ", yhd: " + boundary.yhd;

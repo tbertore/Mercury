@@ -60,8 +60,13 @@ public class Animation {
 			currentFrame = frames[frameIdx];
 		}
 	}
-	public Sprite getCurrentFrame(){
+
+	private Sprite getCurrentFrame() {
 		return currentFrame;
+	}
+
+	public void render(int x, int y) {
+		currentFrame.render(x, y);
 	}
 	/**
 	 * Reset animation. Should be called every time new animation becomes live.

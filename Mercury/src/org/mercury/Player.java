@@ -1,14 +1,22 @@
 package org.mercury;
 
-import org.mercury.entity.Entity;
+import org.lwjgl.input.Keyboard;
+import org.mercury.entity.Hero;
 import org.mercury.gfx.Camera;
 
 public class Player {
-	private Entity hero;
+	private Hero hero;
 	private Camera camera;
-	
-	public Player(Entity hero, Camera camera) {
+
+	public Player(Hero hero, Camera camera) {
 		this.hero = hero;
 		this.camera = camera;
+	}
+
+	private void update() {
+		// Get current state of keyboard.
+		Keyboard.poll();
+		// Update position.
+		hero.update();
 	}
 }

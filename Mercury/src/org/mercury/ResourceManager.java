@@ -9,6 +9,7 @@ import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.mercury.entity.Hero;
 import org.mercury.gfx.Animation;
 import org.mercury.gfx.AnimationList;
 import org.mercury.gfx.Sprite;
@@ -59,7 +60,7 @@ import org.w3c.dom.NodeList;
 public class ResourceManager {
 	private HashMap<String, SpriteSheet> sheets;
 	private final HashMap<String, Sprite> sprites;
-	private final AnimationList animations;
+	private Hero hero;
 
 	/**
 	 * Constructs a new ResourceManager with empty resource mappings.
@@ -68,7 +69,6 @@ public class ResourceManager {
 	public ResourceManager() {
 		sheets = new HashMap<String, SpriteSheet>();
 		sprites = new HashMap<String, Sprite>();
-		animations = new AnimationList();
 	}
 
 	/**
@@ -185,16 +185,24 @@ public class ResourceManager {
 			sprites[idx] = new Sprite(size, size);
 			sprites[idx].load(sheets.get(sheet), (x + idx) * size, y * size);
 		}
-		animations.add(id, new Animation(sprites, speed, loop), 1);
-		animations.set(id, AnimationList.EAST);
+		AnimationList animations = new AnimationList(id, new Animation(sprites,
+				speed, loop), AnimationList.EAST);
+		animations.add(id, new Animation(sprites, speed, loop),
+				AnimationList.SOUTH);
+		animations.add(id, new Animation(sprites, speed, loop),
+				AnimationList.WEST);
+		animations.add(id, new Animation(sprites, speed, loop),
+				AnimationList.NORTH);
+		animations.setLive(id, AnimationList.EAST);
+		hero = new Hero(0, 0, animations);
 	}
 
 	public Sprite getSprite(String id) {
 		return sprites.get(id);
 	}
 
-	public Animation getAnimation(String id) {
-		return animations.getLive();
-	}
 
+	public Hero getHero() {
+		return hero;
+	}
 }

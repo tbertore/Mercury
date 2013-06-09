@@ -1,6 +1,6 @@
 package org.mercury.gfx;
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 /**
  * Container class for entities that can perform multiple animations. Implementation
  * allows users to set the animation by assigned name and orientation.
@@ -11,6 +11,7 @@ public class AnimationList {
 	private final ArrayList<HashMap<String, Animation>> mapList = new ArrayList<HashMap<String, Animation>>(4);
 	private Animation liveAnimation;
 	private int orientation;
+	private String liveAnimationName;
 
 	public static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
 
@@ -104,20 +105,46 @@ public class AnimationList {
 	 * @param orientation
 	 * direction to orient animation.
 	 */
-	public void set(String animationName, Integer orientation){
+	public void setLive(String animationName, Integer orientation) {
 		liveAnimation = mapList.get(orientation).get(animationName);
-		this.orientation = orientation;
 		if (liveAnimation == null){
 			// Throw exception if no animation is returned.
 			throw new IndexOutOfBoundsException("Animation not in list!");
 		}
+		this.orientation = orientation;
+		liveAnimationName = animationName;
 		// Make sure animation starts at first frame.
 		liveAnimation.initializeAnimation();
 	}
 	public Animation getLive(){
 		return liveAnimation;
 	}
+
+	public String getLiveName() {
+		return liveAnimationName;
+	}
 	public Integer getOrientation(){
 		return orientation;
+	}
+
+	/**
+	 * Poll if inputs are different than current animation state.
+	 * 
+	 * @param orientation
+	 * @param animationName
+	 * @return True if state needs change, false otherwise.
+	 */
+	public boolean shouldReinitialize(int orientation, String animationName) {
+		return (orientation != this.orientation || !animationName
+				.equals(liveAnimationName));
+	}
+
+	public void render(int x, int y) {
+		liveAnimation.render(x, y);
+	}
+
+	public void update() {
+		liveAnimation.update();
+
 	}
 }
