@@ -169,14 +169,17 @@ public class QuadTree {
 	 *            The last y position of e before it was changed.
 	 */
 	public void reindex(Entity e, int prevX, int prevY) {
-		if (!boundary.contains(prevX, prevY))
+		if (!boundary.contains(prevX, prevY)) {
 			return;
+		}
 		Iterator<Entity> it = entities.iterator();
 		while (it.hasNext()) {
 			Entity found = it.next();
 			if (e.equals(found)) {
 				it.remove();
-				head.insert(e);
+				if (!head.insert(e)) {
+					throw new RuntimeException("Entity moved out of world!");
+				}
 				return;
 			}
 		}

@@ -69,7 +69,7 @@ public class EntityManager {
 			e.update();
 			if (e.getX() != x || e.getY() != y) {
 				tree.reindex(e, x, y);
-				System.out.println("Reindexin");
+				tree.print();
 			}
 		}
 
