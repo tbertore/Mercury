@@ -32,15 +32,6 @@ public class Hero extends Entity {
 	}
 
 	/**
-	 * Update entity position from keyboard state.
-	 */
-	@Override
-	public void update() {
-		// Update animation frame.
-		animations.update();
-	}
-
-	/**
 	 * Render the hero onto the screen.
 	 */
 	public void render() {

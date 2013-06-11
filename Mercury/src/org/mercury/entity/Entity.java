@@ -17,11 +17,13 @@ import org.mercury.util.BoundingBox;
 public class Entity {
 	private static int idCount = 0;
 	private final int id;
+	// The action entity is performing.
+	protected String currentState = "walk_test";
 	protected double x, y;
-	protected int w, h;
-	protected AnimationList animations;
+	protected int w, h, deltaNorth, deltaEast;
 	protected double speed = 1;
 	protected EntityManager owner;
+	protected AnimationList animations;
 	public Entity(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -40,7 +42,10 @@ public class Entity {
 	}
 
 	public void update() {
+		// Update to next frame if necessary.
 		animations.update();
+		// Move as far as possible
+		propagatePosition();
 	}
 
 	public void render(Camera c) {
@@ -49,18 +54,14 @@ public class Entity {
 	}
 
 	/**
-	 * Primitive collision algorithm that calculates a bounding box of all
-	 * entities from last update to determine potential collision partners. In a
+	 * Primitive collision algorithm that calculates farthest possible valid
+	 * location in the direction of vectors deltaEast and deltaNorth. In a
 	 * moving collision, the entity that is ticked first receives precedence.
 	 *
-	 * @param deltaEast
-	 *            vector determining movement across east - west axis. can be 3
-	 *            values: 1, 0, -1.
-	 * @param deltaNorth
-	 *            vector determining movement across north - south axis. can be
-	 *            3 values: 1, 0, -1.
+	 * @author Wyatt Bertorelli
+	 *
 	 */
-	public void requestMove(int deltaEast, int deltaNorth) {
+	private void propagatePosition() {
 		// Calculate magnitude
 		double magnitude = (Math.sqrt(Math.abs(deltaEast)
 				+ Math.abs(deltaNorth)));
@@ -88,12 +89,11 @@ public class Entity {
 		int[] yVals = new int[collisions.size()];
 		for (int j = 0; j < collisions.size(); j++) {
 			// Get scalar distances between faces that intersect first.
-			xVals[j] = (deltaEast > 0) ? Math.abs(collisions.get(j).getX() - w
-					- getX()) : Math.abs(collisions.get(j).getX()
-					- collisions.get(j).getW() - getX());
-			yVals[j] = (deltaNorth > 0) ? Math.abs(collisions.get(j).getY() - h
-					- getY()) : Math.abs(collisions.get(j).getY()
-					- collisions.get(j).getH() - getY());
+			xVals[j] = (deltaEast > 0) ? Math.abs(collisions.get(j).getX() - (getX() + w)) :
+				Math.abs(getX() - (collisions.get(j).getX() - collisions.get(j).getW()));
+			// +y points towards south, so logic flips here.
+			yVals[j] = (deltaNorth <= 0) ? Math.abs(collisions.get(j).getY() - (getY() + h)) :
+				Math.abs(getY() - (collisions.get(j).getY() - collisions.get(j).getH()));
 		}
 		// Nearest values are our closest intersection.
 		Arrays.sort(xVals);
@@ -104,9 +104,49 @@ public class Entity {
 				: deltaX + x;
 		y = (Math.abs(deltaY) > yVals[0]) ? (double) yVals[0] * -deltaNorth + y
 				: deltaY + y;
-
 	}
 
+	/**
+	 * Sets the entities direction request on next update. Also sets animation
+	 * if necessary. See propagatePosition.
+	 *
+	 * @param deltaEast
+	 *            vector indicating direction across east - west axis.
+	 * @param deltaNorth
+	 *            vector indicating direction across north - south axis.
+	 */
+	public void setPropagationVector(int deltaEast, int deltaNorth) {
+		this.deltaEast = deltaEast;
+		this.deltaNorth = deltaNorth;
+		// Find position entity is pointing towards.
+		int orientation = calculatePointingAngle();
+		// Update animations if necessary.
+		if (orientation != animations.getOrientation()
+				|| !currentState.equals(animations.getLiveName()))
+			animations.setLive(currentState, orientation);
+	}
+
+	/**
+	 * Calculate the pointing angle for proper animation update.
+	 *
+	 * @return orientation, in format of AnimationList
+	 */
+	private int calculatePointingAngle() {
+		// If all tests fail, orientation is previous state.
+		int orientation = animations.getOrientation();
+
+		if (deltaNorth == 1)
+			orientation = 1;
+		if (deltaNorth == -1)
+			orientation = 3;
+		// east - west axis receives precedence if two direction commands are
+		// issued.
+		if (deltaEast == 1)
+			orientation = 2;
+		if (deltaEast == -1)
+			orientation = 4;
+		return orientation;
+	}
 	public int id() {
 		return id;
 	}

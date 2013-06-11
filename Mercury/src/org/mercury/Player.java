@@ -38,9 +38,9 @@ public class Player {
 	}
 
 	public void update() {
-		// Update position.
+		// Get issued commands
 		input.update();
-
-		hero.requestMove(input.deltaEast, input.deltaNorth);
+		// Issue move direction.
+		hero.setPropagationVector(input.deltaEast, input.deltaNorth);
 	}
 }
