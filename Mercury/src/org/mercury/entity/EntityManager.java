@@ -1,5 +1,6 @@
 package org.mercury.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.lwjgl.util.Point;
@@ -37,6 +38,7 @@ public class EntityManager {
 			throw new IllegalArgumentException("Duplicate entity ids!");
 		idToEntity.put(e.id(), e);
 		tree.insert(e);
+		e.setOwner(this);
 	}
 
 	/**
@@ -78,5 +80,16 @@ public class EntityManager {
 		for (Entity e : idToEntity.values()) {
 			e.render(c);
 		}
+	}
+
+	/**
+	 * Allow return of level tree for collision checking.
+	 *
+	 * @return
+	 *
+	 */
+	public ArrayList<Entity> findCollisions(BoundingBox bounds) {
+		return tree.searchRect(bounds);
+
 	}
 }
