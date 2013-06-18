@@ -42,6 +42,7 @@ public class GameplayState implements GameState {
 	@Override
 	public void execute(Game e) {
 		world.update();
+		game.getPlayer().update();
 	}
 
 	@Override
